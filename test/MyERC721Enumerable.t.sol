@@ -11,21 +11,25 @@ contract MyERC721EnumerableTest is Test {
     
     function setUp() public {
         myERC721Enumerable = new MyERC721Enumerable();
-        for(uint256 i = 0; i < 10; ++i){
+        uint256 amount = 10;
+        for(uint256 i = 0; i < amount; ++i){
             myERC721Enumerable.mint(alice, i);
         }
+        assertEq(myERC721Enumerable.balanceOf(alice), amount);
     }
 
     function test_transfer() public {
         uint256 tokenId = 0;
         vm.prank(alice);
         myERC721Enumerable.transferFrom(alice, bob, tokenId);
+        assertEq(myERC721Enumerable.balanceOf(bob), 1);
     }
 
     function test_approve() public {
         uint256 tokenId = 1;
         vm.prank(alice);
         myERC721Enumerable.approve(bob, tokenId);
+        assertEq(myERC721Enumerable.getApproved(tokenId), bob);
     }
 
 }

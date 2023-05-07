@@ -11,18 +11,24 @@ contract MyERC721ATest is Test {
     
     function setUp() public {
         myERC721A = new MyERC721A();
-        myERC721A.mint(alice, 10);
+        uint256 amount = 10;
+        myERC721A.mint(alice, amount);
+        assertEq(myERC721A.balanceOf(alice), amount);
     }
 
 
     function test_transfer() public {
         vm.prank(alice);
-        myERC721A.transferFrom(alice, bob, 0);
+        uint256 tokenId = 0;
+        myERC721A.transferFrom(alice, bob, tokenId);
+        assertEq(myERC721A.balanceOf(bob), 1);
     }
 
     function test_approve() public {
         vm.prank(alice);
-        myERC721A.approve(bob, 0);
+        uint256 tokenId = 0;
+        myERC721A.approve(bob, tokenId);
+        assertEq(myERC721A.getApproved(tokenId), bob);
     }
 
 }
